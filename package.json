@@ -1,0 +1,43 @@
+{
+  "name": "verify-mcp",
+  "version": "1.0.0",
+  "mcpName": "io.github.ciperx/verify-mcp",
+  "description": "MCP server for SHA-256 artifact verification and Base USDC transfer verification via the HashN Verify API (x402, 0.10 USDC per call).",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "verify-mcp": "src/server.js"
+  },
+  "main": "src/core.js",
+  "files": [
+    "src",
+    "mcp.json",
+    "smithery.yaml",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "x402",
+    "verification",
+    "sha256",
+    "base",
+    "usdc",
+    "agent-payments"
+  ],
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.20.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ciperx/verify-mcp.git"
+  }
+}

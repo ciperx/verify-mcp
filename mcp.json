@@ -1,0 +1,64 @@
+{
+  "$schema": "https://raw.githubusercontent.com/modelcontextprotocol/registry/main/schema/server.json",
+  "name": "io.github.ciperx/verify-mcp",
+  "description": "SHA-256 artifact verification and Base USDC transfer verification for AI agents. Three tools: verify_artifact, verify_base_tx (0.10 USDC per call via x402 on Base) and health (free).",
+  "version": "1.0.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ciperx/verify-mcp"
+  },
+  "homepage": "https://github.com/ciperx/verify-mcp",
+  "license": "MIT",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryName": "verify-mcp",
+      "identifier": "verify-mcp",
+      "version": "1.0.0",
+      "runtimeHint": "npx",
+      "transport": { "type": "stdio" },
+      "environmentVariables": [
+        {
+          "name": "X402_PAYMENT_HEADER",
+          "description": "Base64 X-PAYMENT payload for the x402 challenge (0.10 USDC on Base). Optional: without it, paid tools return the 402 challenge instead of a verdict.",
+          "isRequired": false,
+          "isSecret": true
+        },
+        {
+          "name": "VERIFY_API_BASE_URL",
+          "description": "Override the API base URL. Default https://agent.ggez.my.id",
+          "isRequired": false,
+          "default": "https://agent.ggez.my.id"
+        }
+      ]
+    },
+    {
+      "registryType": "git",
+      "identifier": "https://github.com/ciperx/verify-mcp",
+      "transport": { "type": "stdio" },
+      "runtimeHint": "node",
+      "runtimeArguments": ["src/server.js"]
+    }
+  ],
+  "server": {
+    "command": "node",
+    "args": ["src/server.js"],
+    "env": {
+      "VERIFY_API_BASE_URL": "https://agent.ggez.my.id"
+    }
+  },
+  "tools": [
+    {
+      "name": "verify_artifact",
+      "description": "Verify a SHA-256 digest server-side; returns PASS/PARTIAL/FAIL. Paid 0.10 USDC via x402."
+    },
+    {
+      "name": "verify_base_tx",
+      "description": "Decode a Base USDC Transfer log and check recipient/amount. Paid 0.10 USDC via x402."
+    },
+    {
+      "name": "health",
+      "description": "Free liveness and pricing probe."
+    }
+  ]
+}

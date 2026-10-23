@@ -1,0 +1,44 @@
+# Smithery configuration — https://smithery.ai/docs/build/project-config
+# Deploy: `smithery deploy` from the repo root, or connect the GitHub repo in Smithery.
+name: verify-mcp
+version: 1.0.0
+description: >-
+  SHA-256 artifact verification and Base USDC transfer verification for AI agents.
+  Three tools: verify_artifact, verify_base_tx (0.10 USDC per call via x402 on Base)
+  and health (free).
+license: MIT
+homepage: https://github.com/ciperx/verify-mcp
+repository: https://github.com/ciperx/verify-mcp
+tags:
+  - verification
+  - sha256
+  - x402
+  - payments
+  - base
+  - usdc
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required: []
+    properties:
+      x402PaymentHeader:
+        type: string
+        title: X-PAYMENT header (base64)
+        description: >-
+          x402 payment payload for the 0.10 USDC-on-Base challenge. Leave empty to get
+          the payment challenge back from paid tools instead of a verdict.
+      verifyApiBaseUrl:
+        type: string
+        title: API base URL
+        default: https://agent.ggez.my.id
+        description: Override only if you self-host the verify API.
+  commandFunction: |-
+    (config) => ({
+      command: 'node',
+      args: ['src/server.js'],
+      env: {
+        VERIFY_API_BASE_URL: config.verifyApiBaseUrl || 'https://agent.ggez.my.id',
+        ...(config.x402PaymentHeader ? { X402_PAYMENT_HEADER: config.x402PaymentHeader } : {})
+      }
+    })
